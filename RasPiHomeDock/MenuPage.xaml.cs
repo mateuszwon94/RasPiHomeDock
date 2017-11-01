@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using RasPiHomeDock.Views;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -21,5 +22,22 @@ namespace RasPiHomeDock {
     /// </summary>
     public sealed partial class MenuPage : Page {
         public MenuPage() { this.InitializeComponent(); }
+
+        private void HamburgerButton_OnClick(object sender, RoutedEventArgs e) =>
+            HamburgerSplitView.IsPaneOpen = !HamburgerSplitView.IsPaneOpen;
+
+        private void HamburgerListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e) {
+            if ( HamburgerSplitView.IsPaneOpen )
+                HamburgerSplitView.IsPaneOpen = false;
+
+            if ( WeatherListBoxItem.IsSelected ) {
+                MainFrame.Navigate(typeof(WeatherView), HeaderTextBlock);
+            } else if ( SettingsListBoxItem.IsSelected ) {
+                MainFrame.Navigate(typeof(SettingsView), HeaderTextBlock);
+            } else if ( CreditsListBoxItem.IsSelected ) {
+                MainFrame.Navigate(typeof(CreditsView), HeaderTextBlock);
+            }
+        }
+
     }
 }
