@@ -13,18 +13,20 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
+//Szablon elementu Pusta strona jest udokumentowany na stronie https://go.microsoft.com/fwlink/?LinkId=234238
 
 namespace RasPiHomeDock.Views {
     /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
+    /// Pusta strona, która może być używana samodzielnie lub do której można nawigować wewnątrz ramki.
     /// </summary>
-    public sealed partial class WeatherView : Page {
-        public WeatherView() { this.InitializeComponent(); }
+    public sealed partial class AppSettingsView : Page {
+        public AppSettingsView() { this.InitializeComponent(); }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e) {
+            base.OnNavigatedFrom(e);
+
             if ( e.Parameter is TextBlock headerTextBlock ) {
-                headerTextBlock.Text = "Pogoda";
+                headerTextBlock.Text = "Ustawienia aplikacji";
             }
         }
     }

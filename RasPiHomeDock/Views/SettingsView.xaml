@@ -7,6 +7,77 @@
       mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
+        <RelativePanel Grid.Row="0">
+            <Button Name="HamburgerButton"
+                    FontFamily="Segoe MDL2 Assets"
+                    FontSize="30"
+                    Content="&#xE700;"
+                    RelativePanel.AlignLeftWithPanel="True"
+                    Click="HamburgerButton_OnClick"
+                    Width="55"
+                    Height="50" />
+            <TextBlock Name="HeaderTextBlock"
+                       FontSize="30"
+                       Text="Ustawienia"
+                       RelativePanel.AlignHorizontalCenterWithPanel="True" />
+        </RelativePanel>
+
+        <SplitView Grid.Row="1"
+                   Name="HamburgerSplitView"
+                   DisplayMode="CompactOverlay"
+                   OpenPaneLength="350"
+                   CompactPaneLength="55">
+            <SplitView.Content>
+                <Frame Name="MainFrame" />
+            </SplitView.Content>
+            <SplitView.Pane>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <ListBox Name="HamburgerMenuListBox"
+                             Grid.Row="0"
+                             SelectionMode="Single"
+                             SelectionChanged="HamburgerListBox_OnSelectionChanged">
+                        <ListBoxItem Name="AppListBoxItem"
+                                     IsSelected="True">
+                            <RelativePanel>
+                                <TextBlock Name="WeatherIconTextBlock"
+                                           FontFamily="Segoe MDL2 Assets"
+                                           FontSize="30"
+                                           Text="&#xED5B;"
+                                           RelativePanel.AlignLeftWithPanel="True" />
+                                <TextBlock FontSize="25"
+                                           Text="Aplikacja"
+                                           RelativePanel.RightOf="WeatherIconTextBlock"
+                                           RelativePanel.AlignVerticalCenterWithPanel="True"
+                                           Margin="20,0,0,0" />
+                            </RelativePanel>
+                        </ListBoxItem>
+                        <ListBoxItem Name="WiFiListBoxItem">
+                            <RelativePanel>
+                                <TextBlock Name="SettingsIconTextBlock"
+                                           FontFamily="Segoe MDL2 Assets"
+                                           FontSize="30"
+                                           Text="&#xE701;"
+                                           RelativePanel.AlignLeftWithPanel="True" />
+                                <TextBlock FontSize="25"
+                                           Text="Wi-Fi"
+                                           RelativePanel.RightOf="SettingsIconTextBlock"
+                                           RelativePanel.AlignVerticalCenterWithPanel="True"
+                                           Margin="20,0,0,0" />
+                            </RelativePanel>
+                        </ListBoxItem>
+                    </ListBox>
+                </Grid>
+            </SplitView.Pane>
+        </SplitView>
     </Grid>
 </Page>

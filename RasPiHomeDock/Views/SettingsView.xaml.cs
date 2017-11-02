@@ -29,5 +29,19 @@ namespace RasPiHomeDock.Views {
                 headerTextBlock.Text = "Ustawienia";
             }
         }
+
+        private void HamburgerButton_OnClick(object sender, RoutedEventArgs e) =>
+            HamburgerSplitView.IsPaneOpen = !HamburgerSplitView.IsPaneOpen;
+
+        private void HamburgerListBox_OnSelectionChanged(object sender, SelectionChangedEventArgs e) {
+            if ( HamburgerSplitView.IsPaneOpen )
+                HamburgerSplitView.IsPaneOpen = false;
+
+            if ( AppListBoxItem.IsSelected ) {
+                MainFrame.Navigate(typeof(AppSettingsView), HeaderTextBlock);
+            } else if ( WiFiListBoxItem.IsSelected ) {
+                MainFrame.Navigate(typeof(WiFiSettingsView), HeaderTextBlock);
+            } 
+        }
     }
 }
