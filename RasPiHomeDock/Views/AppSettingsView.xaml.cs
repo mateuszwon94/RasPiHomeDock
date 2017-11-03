@@ -22,12 +22,11 @@ namespace RasPiHomeDock.Views {
     public sealed partial class AppSettingsView : Page {
         public AppSettingsView() { this.InitializeComponent(); }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e) {
-            base.OnNavigatedFrom(e);
+        protected override void OnNavigatedTo(NavigationEventArgs e) {
+            base.OnNavigatedTo(e);
 
-            if ( e.Parameter is TextBlock headerTextBlock ) {
+            if ( e.Parameter is TextBlock headerTextBlock )
                 headerTextBlock.Text = "Ustawienia aplikacji";
-            }
         }
     }
 }
