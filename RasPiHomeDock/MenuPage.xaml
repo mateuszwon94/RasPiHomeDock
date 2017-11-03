@@ -6,13 +6,13 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       mc:Ignorable="d">
-    
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        
+
         <RelativePanel Grid.Row="0">
             <Button Name="HamburgerButton"
                     FontFamily="Segoe MDL2 Assets"
@@ -27,7 +27,7 @@
                        Text="Stacja pogodowa"
                        RelativePanel.AlignHorizontalCenterWithPanel="True" />
         </RelativePanel>
-        
+
         <SplitView Grid.Row="1"
                    Name="HamburgerSplitView"
                    DisplayMode="CompactOverlay"
@@ -38,44 +38,43 @@
             </SplitView.Content>
             <SplitView.Pane>
                 <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
 
                     <ListBox Name="HamburgerMenuListBox"
                              Grid.Row="0"
                              SelectionMode="Single"
                              SelectionChanged="HamburgerListBox_OnSelectionChanged">
                         <ListBoxItem Name="WeatherListBoxItem">
-                                <RelativePanel>
-                                    <TextBlock Name="WeatherIconTextBlock"
-                                               FontFamily="Segoe MDL2 Assets"
-                                               FontSize="30"
-                                               Text="&#xE753;"
-                                               RelativePanel.AlignLeftWithPanel="True" />
-                                    <TextBlock FontSize="25"
-                                               Text="Pogoda"
-                                               RelativePanel.RightOf="WeatherIconTextBlock"
-                                               RelativePanel.AlignVerticalCenterWithPanel="True"
-                                               Margin="20,0,0,0" />
-                                </RelativePanel>
-                            </ListBoxItem>
-                        <MenuFlyoutSeparator Foreground="White"/>
-                            <ListBoxItem Name="SettingsListBoxItem"> 
-                                <RelativePanel>
-                                    <TextBlock Name="SettingsIconTextBlock"
-                                               FontFamily="Segoe MDL2 Assets"
-                                               FontSize="30"
-                                               Text="&#xE115;"
-                                               RelativePanel.AlignLeftWithPanel="True" />
-                                    <TextBlock FontSize="25"
-                                               Text="Ustawienia"
-                                               RelativePanel.RightOf="SettingsIconTextBlock"
-                                               RelativePanel.AlignVerticalCenterWithPanel="True"
-                                               Margin="20,0,0,0" />
-                                </RelativePanel>
-                            </ListBoxItem>
+                            <RelativePanel>
+                                <TextBlock Name="WeatherIconTextBlock"
+                                           FontFamily="Segoe MDL2 Assets"
+                                           FontSize="30"
+                                           Text="&#xE753;"
+                                           RelativePanel.AlignLeftWithPanel="True" />
+                                <TextBlock FontSize="25"
+                                           Text="Pogoda"
+                                           RelativePanel.RightOf="WeatherIconTextBlock"
+                                           RelativePanel.AlignVerticalCenterWithPanel="True"
+                                           Margin="20,0,0,0" />
+                            </RelativePanel>
+                        </ListBoxItem>
+                        <ListBoxItem Name="SettingsListBoxItem">
+                            <RelativePanel>
+                                <TextBlock Name="SettingsIconTextBlock"
+                                           FontFamily="Segoe MDL2 Assets"
+                                           FontSize="30"
+                                           Text="&#xE115;"
+                                           RelativePanel.AlignLeftWithPanel="True" />
+                                <TextBlock FontSize="25"
+                                           Text="Ustawienia"
+                                           RelativePanel.RightOf="SettingsIconTextBlock"
+                                           RelativePanel.AlignVerticalCenterWithPanel="True"
+                                           Margin="20,0,0,0" />
+                            </RelativePanel>
+                        </ListBoxItem>
                         <ListBoxItem Name="CreditsListBoxItem"
                                      IsSelected="True">
                             <RelativePanel>
