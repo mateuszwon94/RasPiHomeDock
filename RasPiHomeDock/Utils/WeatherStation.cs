@@ -1,20 +1,32 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Linq;
 using Newtonsoft.Json.Linq;
+using RasPiHomeDock.Utils.Exceptions;
 using static RasPiHomeDock.Utils.Constants;
 
 namespace RasPiHomeDock.Utils {
     public class WeatherStation {
-        internal WeatherStation(JToken json) {
-            Station = json.SelectToken("station").Value<string>();
-            Name = json.SelectToken("name").Value<string>();
-            Longitude = json.SelectToken("long").Value<float>();
-            Latitude = json.SelectToken("lati").Value<float>();
-            Altitude = json.SelectToken("alti").Value<float>();
+        internal WeatherStation(XmlElement xmlElement) {
+            Name = xmlElement["nazwa_stacji"].InnerText;
+            Longitude = ConvertGeographicalCoordinates(xmlElement["szerokosc_geograficzna"].InnerText);
+            Latitude = ConvertGeographicalCoordinates(xmlElement["dlugosc_geograficzna"].InnerText);
+            string altString = xmlElement["wysokosc_npm"].InnerText;
+            Altitude = float.Parse(altString.Remove(altString.Length - 1));
         }
 
-        public string Station { get; }
+        private static float ConvertGeographicalCoordinates(string coordinates) {
+            string s1 = coordinates.Substring(0, 2);
+            string s2 = coordinates.Substring(3, 2);
+            int degree = int.Parse(s1),
+                minutes = int.Parse(s2);
+
+            float coord = degree + minutes / 60.0f;
+            return (coordinates.EndsWith("N") || coordinates.EndsWith("E") ? coord : -coord);
+        }
 
         public string Name { get; }
 
@@ -24,45 +36,22 @@ namespace RasPiHomeDock.Utils {
 
         public float Altitude { get; }
 
-        public bool IsWorking { get; private set; } = true;
+        public WeatherMesurment Mesurment { get; private set; }
 
-        public async Task<WeatherMeasurement> GetCurrentMeasurment(bool force = false) {
-            if ( !IsWorking && !force ) return null;
+        public static async Task RefreshStations() {
+            XmlDocument stationXml = new XmlDocument();
+            stationXml.LoadXml(await Http.Client.GetStringAsync(WeatherStationDataXmlUrl));
 
-            string response = await Http.Client.GetStringAsync(WeatherStationDataUrl + Station);
-
-            JArray meausures = JArray.Parse(response);
-
-            if ( meausures.Count == 0 ) {
-                IsWorking = false;
-                return null;
-            } else if ( !IsWorking ) IsWorking = true;
-
-            return new WeatherMeasurement(meausures[0], stations_);
+            Stations.Add(new WeatherStation(stationXml.DocumentElement));
         }
 
-        public static async Task<WeatherStationList> GetAllStations() {
-            if ( stations_.Count == 0 )
-                await GetStations();
+        public async Task RefreshMesurment() {
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml(await Http.Client.GetStringAsync(WeatherStationDataXmlUrl));
 
-            return stations_;
+            Mesurment = new WeatherMesurment(xmlDoc.DocumentElement["dane_aktualne"]);
         }
 
-        public static async Task<WeatherStation> GetStation(string stationS) {
-            if ( stations_.Count == 0 )
-                await GetStations();
-
-            return stations_.FirstOrDefault(s => s.Station == stationS) ??
-                   stations_.FirstOrDefault(s => s.Name == stationS);
-        }
-
-        private static async Task GetStations() {
-            string response = await Http.Client.GetStringAsync(WeatherStationInfoUrl);
-
-            foreach ( JToken json in JArray.Parse(response) )
-                stations_.Add(new WeatherStation(json));
-        }
-
-        private static readonly WeatherStationList stations_ = new WeatherStationList();
+        public static ObservableCollection<WeatherStation> Stations { get; } = new ObservableCollection<WeatherStation>();
     }
 }
