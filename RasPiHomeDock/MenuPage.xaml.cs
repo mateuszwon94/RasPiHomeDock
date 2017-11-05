@@ -21,7 +21,24 @@ namespace RasPiHomeDock {
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class MenuPage : Page {
-        public MenuPage() { this.InitializeComponent(); }
+        public MenuPage() {
+            this.InitializeComponent();
+
+            timer_.Interval = TimeSpan.FromMilliseconds(900);
+            timer_.Tick += ReloadDateTime;
+        }
+
+        private void ReloadDateTime(object sender, object e) {
+            DateTime now = DateTime.Now;
+            DateTextBlock.Text = now.ToString("dd-MM-yyyy");
+            TimeTextBlock.Text = now.ToString("HH:mm:ss");
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e) {
+            base.OnNavigatedTo(e);
+
+            timer_.Start();
+        }
 
         private void HamburgerButton_OnClick(object sender, RoutedEventArgs e) =>
             HamburgerSplitView.IsPaneOpen = !HamburgerSplitView.IsPaneOpen;
@@ -39,5 +56,6 @@ namespace RasPiHomeDock {
             }
         }
 
+        private readonly DispatcherTimer timer_ = new DispatcherTimer();
     }
 }

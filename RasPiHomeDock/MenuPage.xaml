@@ -22,10 +22,22 @@
                     Click="HamburgerButton_OnClick"
                     Width="55"
                     Height="50" />
+            <TextBlock Name="DateTextBlock"
+                       FontSize="25"
+                       Margin="10,0,0,0"
+                       Text="Data"
+                       RelativePanel.AlignVerticalCenterWithPanel="True"
+                       RelativePanel.RightOf="HamburgerButton" />
             <TextBlock Name="HeaderTextBlock"
                        FontSize="30"
                        Text="Stacja pogodowa"
                        RelativePanel.AlignHorizontalCenterWithPanel="True" />
+            <TextBlock Name="TimeTextBlock"
+                       FontSize="25"
+                       Margin="0,0,10,0"
+                       Text="Czas"
+                       RelativePanel.AlignVerticalCenterWithPanel="True"
+                       RelativePanel.AlignRightWithPanel="True" />
         </RelativePanel>
 
         <SplitView Grid.Row="1"
