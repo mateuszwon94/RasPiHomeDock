@@ -4,9 +4,52 @@
       xmlns:local="using:RasPiHomeDock.Views"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:utils="using:RasPiHomeDock.Utils"
       mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+          Margin="10,10,10,10">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
+        <controls:PullToRefreshListView Name="AvaliableWiFiListView"
+                                        ItemsSource="{x:Bind wifiNetworks_}"
+                                        OverscrollLimit="0.4"
+                                        PullThreshold="100"
+                                        RefreshRequested="AvaliableWiFiListView_RefreshCommand"
+                                        SelectionChanged="AvaliableWiFiListView_OnSelectionChanged"
+                                        SelectionMode="Single">
+            <controls:PullToRefreshListView.RefreshIndicatorContent>
+                <ProgressBar IsIndeterminate="True"/>
+            </controls:PullToRefreshListView.RefreshIndicatorContent>
+            <controls:PullToRefreshListView.ItemTemplate>
+                <DataTemplate x:DataType="utils:WiFiNetwork">
+                    <RelativePanel>
+                        <SymbolIcon x:Name="WiFiSignalBarsSymbolIcon"
+                                    Symbol="{x:Bind WiFiSignalBarsIcon}"
+                                    Margin="0,0,5,0"
+                                    RelativePanel.AlignVerticalCenterWithPanel="True"
+                                    RelativePanel.AlignLeftWithPanel="True" />
+                        <SymbolIcon x:Name="WiFiProtectionSymbolIcon"
+                                    Symbol="{x:Bind WiFiProtectionIcon}"
+                                    Margin="0,0,10,0"
+                                    RelativePanel.RightOf="WiFiSignalBarsSymbolIcon"
+                                    RelativePanel.AlignVerticalCenterWithPanel="True" />
+                        <TextBlock x:Name="SsidTextBlock"
+                                   Text="{x:Bind Ssid}"
+                                   FontSize="15"
+                                   RelativePanel.AlignVerticalCenterWithPanel="true"
+                                   RelativePanel.RightOf="WiFiProtectionSymbolIcon" />
+                    </RelativePanel>
+                </DataTemplate>
+            </controls:PullToRefreshListView.ItemTemplate>
+        </controls:PullToRefreshListView>
+
+        <controls:InAppNotification x:Name="WiFiProblemNotification"
+                                    Grid.Column="1"
+                                    FontSize="20" />
     </Grid>
 </Page>
